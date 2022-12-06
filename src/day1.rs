@@ -56,7 +56,7 @@ pub fn part2() -> Result<(), Box<dyn Error>> {
 	Ok(())
 }
 
-fn read_file(filename: &str) -> Result<Vec<Elf>, Box<dyn Error>>  {
+fn read_file(filename: &str) -> Result<Vec<Elf>, Box<dyn Error>> {
 	let file = File::open(filename)?;
 	let reader = BufReader::new(file);
 	let mut elves = Vec::new();
