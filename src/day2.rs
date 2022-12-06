@@ -1,8 +1,9 @@
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 use std::error::Error;
-use std::io;
 use std::str::FromStr;
+
+use crate::util;
 
 #[derive(Debug)]
 enum RPS {
@@ -59,7 +60,7 @@ impl RPS {
 				RPS::Paper => Ok(RPS::Scissors),
 				RPS::Scissors => Ok(RPS::Rock)
 			},
-			_ => Err(io::Error::new(io::ErrorKind::InvalidInput, "Bad opponent"))
+			_ => Err(util::InvalidInputError("Bad opponent"))
 		}
 	}
 }
@@ -71,7 +72,7 @@ impl FromStr for RPS {
 			"A" | "X" => Ok(RPS::Rock),
 			"B" | "Y" => Ok(RPS::Paper),
 			"C" | "Z" => Ok(RPS::Scissors),
-			_ => Err(io::Error::new(io::ErrorKind::InvalidInput, "Bad RPS"))
+			_ => Err(util::InvalidInputError("Bad RPS"))
 		}
 	}
 }

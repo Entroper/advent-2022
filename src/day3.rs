@@ -2,6 +2,8 @@ use std::error::Error;
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 
+use crate::util;
+
 pub fn part1() -> Result<(), Box<dyn Error>> {
 	let file = File::open("input03.txt")?;
 	let reader = BufReader::new(file);
@@ -28,8 +30,8 @@ pub fn part2() -> Result<(), Box<dyn Error>> {
 	let mut lines = reader.lines();
 	while let Some(line1) = lines.next() {
 		let line1 = line1?;
-		let line2 = lines.next().expect("Didn't read 3 lines")?;
-		let line3 = lines.next().expect("Didn't read 3 lines")?;
+		let line2 = lines.next().ok_or(util::InvalidInputError("Didn't read 3 lines"))??;
+		let line3 = lines.next().ok_or(util::InvalidInputError("Didn't read 3 lines"))??;
 		total += get_triple_priority(&line1, &line2, &line3);
 	}
 
@@ -59,7 +61,7 @@ fn get_triple_priority(sack1: &str, sack2: &str, sack3: &str) -> i32 {
 		for char2 in sack2.chars() {
 			if char1 == char2 {
 				for char3 in sack3.chars() {
-					if (char1 == char3) {
+					if char1 == char3 {
 						return match char1 {
 							'a'..='z' => char1 as i32 - 'a' as i32 + 1,
 							'A'..='Z' => char1 as i32 - 'A' as i32 + 27,
